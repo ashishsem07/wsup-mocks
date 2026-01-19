@@ -80,7 +80,7 @@ export function AIImageGeneratorContent() {
                         wsup.ai is a powerful AI image generator that lets you create high-quality images from simple text prompts. With advanced AI image generation, you can turn ideas into visuals in seconds—no design skills required.
                     </p>
                     <p>
-                        Whether you're creating art, characters, illustrations, or concept visuals, our image generator helps you bring imagination to life. Simply describe what you want, choose a style, and let AI handle the rest.
+                        Whether you&apos;re creating art, characters, illustrations, or concept visuals, our image generator helps you bring imagination to life. Simply describe what you want, choose a style, and let AI handle the rest.
                     </p>
                     <p>
                         Use wsup.ai for creative projects, storytelling, social media visuals, or experimentation with AI-powered image creation—all directly in your browser.
@@ -136,7 +136,7 @@ export function AIImageGeneratorContent() {
                                 className="text-left p-4 rounded-xl bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 transition-colors group"
                             >
                                 <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                                    "{prompt}"
+                                    &quot;{prompt}&quot;
                                 </p>
                             </button>
                         ))}

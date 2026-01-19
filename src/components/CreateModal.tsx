@@ -10,7 +10,9 @@ export function CreateModal() {
 
     useEffect(() => {
         if (isCreateModalOpen) {
-            setIsVisible(true);
+            // Small delay to ensure the DOM is mounted and transition can play
+            const timer = setTimeout(() => setIsVisible(true), 10);
+            return () => clearTimeout(timer);
         } else {
             const timer = setTimeout(() => setIsVisible(false), 300); // Wait for animation
             return () => clearTimeout(timer);

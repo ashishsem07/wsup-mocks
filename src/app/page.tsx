@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 
 export default function Home() {
   return (
@@ -49,7 +48,7 @@ export default function Home() {
               </div>
               <div className="space-y-1">
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                  You haven't chatted with anyone yet
+                  You haven&apos;t chatted with anyone yet
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                   Talk to your AI companions and see your recent chats here.
