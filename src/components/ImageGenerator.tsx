@@ -10,8 +10,20 @@ const MOCK_IMAGES = [
     "https://storage.googleapis.com/pai-images/5617260836524174aa7303d664d325e0.jpeg"
 ];
 
-export function ImageGenerator() {
-    const [prompt, setPrompt] = useState('');
+interface ImageGeneratorProps {
+    initialPrompt?: string;
+    onPromptChange?: (prompt: string) => void;
+}
+
+export function ImageGenerator({ initialPrompt = '', onPromptChange }: ImageGeneratorProps) {
+    const [prompt, setPrompt] = React.useState(initialPrompt);
+
+    React.useEffect(() => {
+        if (initialPrompt) {
+            setPrompt(initialPrompt);
+        }
+    }, [initialPrompt]);
+
     const [style, setStyle] = useState('anime');
     const [ratio, setRatio] = useState('1:1');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -66,14 +78,15 @@ export function ImageGenerator() {
                             value={prompt}
                             onChange={(e) => {
                                 setPrompt(e.target.value);
+                                onPromptChange?.(e.target.value);
                                 if (showError && e.target.value.trim()) {
                                     setShowError(false);
                                 }
                             }}
                             rows={4}
                             className={`w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border ${showError
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-200 dark:border-gray-700 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-200 dark:border-gray-700 focus:ring-primary-500'
                                 } focus:ring-2 focus:border-transparent outline-none transition-all resize-none text-gray-900 dark:text-white placeholder-gray-400`}
                             placeholder="A cinematic anime character standing in neon rain, ultra-detailed"
                         />
@@ -109,8 +122,8 @@ export function ImageGenerator() {
                                         key={r}
                                         onClick={() => setRatio(r)}
                                         className={`flex-1 py-2.5 rounded-xl border text-xs font-medium transition-colors ${ratio === r
-                                                ? 'bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300'
-                                                : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                                            ? 'bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300'
+                                            : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
                                             }`}
                                     >
                                         {r}
@@ -125,8 +138,8 @@ export function ImageGenerator() {
                         onClick={handleGenerate}
                         disabled={status === 'loading'}
                         className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all transform ${status === 'loading'
-                                ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white shadow-primary-500/25 hover:scale-[1.02] active:scale-[0.98]'
+                            ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white shadow-primary-500/25 hover:scale-[1.02] active:scale-[0.98]'
                             }`}
                     >
                         {status === 'loading' ? (

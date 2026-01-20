@@ -30,6 +30,7 @@ const JsonLd = () => {
 
 export function AIImageGeneratorContent() {
     const generatorRef = useRef<HTMLDivElement>(null);
+    const [selectedPrompt, setSelectedPrompt] = React.useState('');
 
     const scrollToGenerator = () => {
         if (generatorRef.current) {
@@ -43,14 +44,15 @@ export function AIImageGeneratorContent() {
 
     const handleExampleClick = (prompt: string, style: string) => {
         console.log('Example clicked:', prompt, style);
+        setSelectedPrompt(prompt);
+        // Style handling can be added later if ImageGenerator supports it via props
         scrollToGenerator();
-        // TODO: Pass prompt and style to ImageGenerator via state management
     };
 
     const handlePromptClick = (prompt: string) => {
         console.log('Prompt clicked:', prompt);
+        setSelectedPrompt(prompt);
         scrollToGenerator();
-        // TODO: Pass prompt to ImageGenerator via state management
     };
 
     return (
@@ -69,7 +71,10 @@ export function AIImageGeneratorContent() {
                     </p>
 
                     {/* Generator UI Component */}
-                    <ImageGenerator />
+                    <ImageGenerator
+                        initialPrompt={selectedPrompt}
+                        onPromptChange={setSelectedPrompt}
+                    />
                 </div>
             </section>
 
