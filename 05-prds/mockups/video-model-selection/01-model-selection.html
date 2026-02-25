@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screen 1: Video Model Selection</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0a0f; color: #fff; max-width: 390px; margin: 0 auto;
+    min-height: 100vh; position: relative; padding-bottom: 90px;
+  }
+
+  /* Top Bar */
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; background: #0a0a0f;
+    position: sticky; top: 0; z-index: 10;
+    border-bottom: 1px solid #1a1a2e;
+  }
+  .top-bar .back { font-size: 20px; color: #fff; text-decoration: none; }
+  .top-bar .title { font-size: 17px; font-weight: 600; }
+  .top-bar .credits {
+    display: flex; align-items: center; gap: 4px;
+    background: #1a1a2e; border-radius: 20px; padding: 6px 12px;
+    font-size: 13px; font-weight: 600; color: #f0c040;
+  }
+
+  .content { padding: 16px; }
+
+  /* Character Preview */
+  .char-preview {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .char-avatar {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(135deg, #6c5ce7, #a855f7);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .char-info .char-name { font-size: 16px; font-weight: 600; }
+  .char-info .char-sub { font-size: 12px; color: #888; margin-top: 2px; }
+
+  /* Prompt Input */
+  .prompt-section { margin-bottom: 20px; }
+  .prompt-label { font-size: 13px; color: #888; margin-bottom: 6px; }
+  .prompt-input {
+    width: 100%; background: #12121f; border: 1px solid #2a2a3e;
+    border-radius: 12px; padding: 12px 14px; color: #fff;
+    font-size: 14px; resize: none; height: 60px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .prompt-input::placeholder { color: #555; }
+  .prompt-input:focus { border-color: #7c3aed; }
+
+  /* Duration Toggle */
+  .duration-section { margin-bottom: 20px; }
+  .section-label { font-size: 13px; color: #888; margin-bottom: 8px; }
+  .duration-toggle {
+    display: flex; background: #12121f; border-radius: 12px;
+    padding: 4px; gap: 4px;
+  }
+  .dur-option {
+    flex: 1; text-align: center; padding: 10px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dur-option.active { background: #7c3aed; color: #fff; }
+  .dur-option:not(.active) { color: #666; }
+  .duration-note { font-size: 11px; color: #555; margin-top: 6px; text-align: center; }
+
+  /* Model Cards */
+  .models-section { margin-bottom: 20px; }
+  .models-header {
+    font-size: 15px; font-weight: 600; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .model-card {
+    background: #12121f; border: 2px solid #2a2a3e;
+    border-radius: 16px; padding: 16px; margin-bottom: 10px;
+    cursor: pointer; transition: all 0.2s;
+    position: relative;
+  }
+  .model-card:hover { border-color: #4a3a6e; }
+  .model-card.selected {
+    border-color: #7c3aed;
+    background: linear-gradient(135deg, #12121f, #1a1530);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+  }
+
+  .model-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .model-name { font-size: 16px; font-weight: 700; }
+  .model-provider { font-size: 11px; color: #666; margin-top: 1px; }
+  .model-badge {
+    font-size: 11px; font-weight: 600; padding: 4px 10px;
+    border-radius: 20px; white-space: nowrap;
+  }
+  .badge-value { background: #064e3b; color: #34d399; }
+  .badge-quality { background: #422006; color: #fbbf24; }
+  .badge-premium { background: #2e1065; color: #c084fc; }
+
+  .model-features {
+    display: flex; gap: 12px; margin-bottom: 10px;
+    font-size: 12px; color: #999;
+  }
+  .model-features span { display: flex; align-items: center; gap: 4px; }
+
+  .model-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .model-price { font-size: 20px; font-weight: 700; }
+  .model-price small { font-size: 12px; font-weight: 400; color: #888; }
+  .model-time { font-size: 12px; color: #666; }
+
+  .check-icon {
+    position: absolute; top: 12px; right: 12px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #7c3aed; display: none;
+    align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .model-card.selected .check-icon { display: flex; }
+
+  /* Sora Resolution Toggle */
+  .sora-res {
+    display: flex; gap: 6px; margin-top: 8px;
+    background: #0a0a14; border-radius: 8px; padding: 3px;
+  }
+  .res-option {
+    flex: 1; text-align: center; padding: 6px 8px; border-radius: 6px;
+    font-size: 11px; color: #666; cursor: pointer; transition: all 0.2s;
+  }
+  .res-option.active { background: #1a1a30; color: #c084fc; font-weight: 600; }
+
+  /* Bottom CTA */
+  .bottom-cta {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 390px; padding: 16px;
+    background: linear-gradient(to top, #0a0a0f 80%, transparent);
+  }
+  .generate-btn {
+    width: 100%; padding: 16px; border: none; border-radius: 14px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: transform 0.1s, opacity 0.2s;
+  }
+  .generate-btn:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="#" class="back">&larr;</a>
+  <span class="title">Create Video Post</span>
+  <div class="credits">&#x1FA99; 1,250</div>
+</div>
+
+<div class="content">
+  <!-- Character Preview -->
+  <div class="char-preview">
+    <div class="char-avatar">&#x1F469;</div>
+    <div class="char-info">
+      <div class="char-name">Luna</div>
+      <div class="char-sub">Your character</div>
+    </div>
+  </div>
+
+  <!-- Prompt Input -->
+  <div class="prompt-section">
+    <div class="prompt-label">Describe your video scene (optional)</div>
+    <textarea class="prompt-input" placeholder="e.g. Luna walking through a neon-lit cyberpunk city at night..."></textarea>
+  </div>
+
+  <!-- Duration Toggle -->
+  <div class="duration-section">
+    <div class="section-label">Duration</div>
+    <div class="duration-toggle">
+      <div class="dur-option active" onclick="selectDuration(this, 5)">5 seconds</div>
+      <div class="dur-option" onclick="selectDuration(this, 10)">10 seconds</div>
+    </div>
+    <div class="duration-note">10s costs 2x credits</div>
+  </div>
+
+  <!-- Model Selection -->
+  <div class="models-section">
+    <div class="models-header">Choose AI Model</div>
+
+    <!-- Kling 2.6 -->
+    <div class="model-card selected" onclick="selectModel(this, 200, 'kling')">
+      <div class="check-icon">&#10003;</div>
+      <div class="model-top">
+        <div>
+          <div class="model-name">Kling 2.6</div>
+          <div class="model-provider">Kuaishou</div>
+        </div>
+        <div class="model-badge badge-value">&#9889; Best Value</div>
+      </div>
+      <div class="model-features">
+        <span>&#x1F50A; Audio included</span>
+        <span>&#x1F3AC; 1080p</span>
+        <span>&#x23F1; ~2 min</span>
+      </div>
+      <div class="model-bottom">
+        <div class="model-price">200 <small>credits</small></div>
+        <div class="model-time">$0.14/sec</div>
+      </div>
+    </div>
+
+    <!-- Veo 3.1 -->
+    <div class="model-card" onclick="selectModel(this, 250, 'veo')">
+      <div class="check-icon">&#10003;</div>
+      <div class="model-top">
+        <div>
+          <div class="model-name">Veo 3.1</div>
+          <div class="model-provider">Google</div>
+        </div>
+        <div class="model-badge badge-quality">&#10024; Highest Quality</div>
+      </div>
+      <div class="model-features">
+        <span>&#x1F50A; Audio included</span>
+        <span>&#x1F3AC; 1080p</span>
+        <span>&#x23F1; ~3 min</span>
+      </div>
+      <div class="model-bottom">
+        <div class="model-price">250 <small>credits</small></div>
+        <div class="model-time">$0.15/sec</div>
+      </div>
+    </div>
+
+    <!-- Sora 2.0 -->
+    <div class="model-card" onclick="selectModel(this, 450, 'sora')">
+      <div class="check-icon">&#10003;</div>
+      <div class="model-top">
+        <div>
+          <div class="model-name">Sora 2.0</div>
+          <div class="model-provider">OpenAI</div>
+        </div>
+        <div class="model-badge badge-premium">&#x1F451; Premium</div>
+      </div>
+      <div class="model-features">
+        <span>&#x1F50A; Audio included</span>
+        <span>&#x23F1; ~4 min</span>
+      </div>
+      <div class="sora-res">
+        <div class="res-option active" onclick="event.stopPropagation(); selectRes(this, 450)">720p &mdash; 450 credits</div>
+        <div class="res-option" onclick="event.stopPropagation(); selectRes(this, 750)">1080p &mdash; 750 credits</div>
+      </div>
+      <div class="model-bottom" style="margin-top: 10px;">
+        <div class="model-price sora-price">450 <small>credits</small></div>
+        <div class="model-time">$0.30/sec (720p)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom CTA -->
+<div class="bottom-cta">
+  <button class="generate-btn" id="generateBtn">Generate Video &mdash; 200 credits</button>
+</div>
+
+<script>
+  let currentCredits = 200;
+  let multiplier = 1;
+
+  function selectModel(card, credits, model) {
+    document.querySelectorAll('.model-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    currentCredits = credits;
+    updateBtn();
+  }
+
+  function selectDuration(el, secs) {
+    document.querySelectorAll('.dur-option').forEach(d => d.classList.remove('active'));
+    el.classList.add('active');
+    multiplier = secs === 10 ? 2 : 1;
+    updateBtn();
+  }
+
+  function selectRes(el, credits) {
+    document.querySelectorAll('.sora-res .res-option').forEach(r => r.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelector('.sora-price').innerHTML = credits + ' <small>credits</small>';
+    if (document.querySelector('.model-card:last-child').classList.contains('selected')) {
+      currentCredits = credits;
+      updateBtn();
+    }
+  }
+
+  function updateBtn() {
+    document.getElementById('generateBtn').textContent =
+      'Generate Video — ' + (currentCredits * multiplier) + ' credits';
+  }
+</script>
+</body>
+</html>
