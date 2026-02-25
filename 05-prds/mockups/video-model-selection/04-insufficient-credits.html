@@ -1,237 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Screen 4: Insufficient Credits</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0a0f; color: #fff; max-width: 390px; margin: 0 auto;
-    min-height: 100vh; position: relative; padding-bottom: 90px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screen 4: Insufficient Credits</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  .top-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px; background: #0a0a0f;
-    position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #1a1a2e;
-  }
-  .top-bar .back { font-size: 20px; color: #fff; text-decoration: none; }
-  .top-bar .title { font-size: 17px; font-weight: 600; }
-  .top-bar .credits {
-    display: flex; align-items: center; gap: 4px;
-    background: #2a1015; border: 1px solid #ef4444; border-radius: 20px;
-    padding: 6px 12px; font-size: 13px; font-weight: 600; color: #ef4444;
-  }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 90px;
+    }
 
-  .content { padding: 16px; }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #0a0a0f;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid #1a1a2e;
+    }
 
-  /* Low credits warning */
-  .low-credits-banner {
-    background: linear-gradient(135deg, #2a1015, #1a0a0f);
-    border: 1px solid #ef444433; border-radius: 12px;
-    padding: 12px 16px; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .warning-icon { font-size: 20px; }
-  .warning-text { font-size: 13px; color: #f87171; }
-  .warning-text strong { color: #ef4444; }
+    .top-bar .back {
+      font-size: 20px;
+      color: #fff;
+      text-decoration: none;
+    }
 
-  .char-preview {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
-  }
-  .char-avatar {
-    width: 56px; height: 56px; border-radius: 14px;
-    background: linear-gradient(135deg, #6c5ce7, #a855f7);
-    display: flex; align-items: center; justify-content: center; font-size: 24px;
-  }
-  .char-info .char-name { font-size: 16px; font-weight: 600; }
-  .char-info .char-sub { font-size: 12px; color: #888; margin-top: 2px; }
+    .top-bar .title {
+      font-size: 17px;
+      font-weight: 600;
+    }
 
-  .prompt-section { margin-bottom: 20px; }
-  .prompt-label { font-size: 13px; color: #888; margin-bottom: 6px; }
-  .prompt-input {
-    width: 100%; background: #12121f; border: 1px solid #2a2a3e;
-    border-radius: 12px; padding: 12px 14px; color: #fff;
-    font-size: 14px; resize: none; height: 60px; outline: none;
-  }
-  .prompt-input::placeholder { color: #555; }
+    .top-bar .credits {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #2a1015;
+      border: 1px solid #ef4444;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ef4444;
+    }
 
-  .duration-section { margin-bottom: 20px; }
-  .section-label { font-size: 13px; color: #888; margin-bottom: 8px; }
-  .duration-toggle {
-    display: flex; background: #12121f; border-radius: 12px; padding: 4px; gap: 4px;
-  }
-  .dur-option {
-    flex: 1; text-align: center; padding: 10px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-  }
-  .dur-option.active { background: #7c3aed; color: #fff; }
-  .dur-option:not(.active) { color: #666; }
-  .duration-note { font-size: 11px; color: #555; margin-top: 6px; text-align: center; }
+    .content {
+      padding: 16px;
+    }
 
-  .models-section { margin-bottom: 20px; }
-  .models-header { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+    /* Low credits warning */
+    .low-credits-banner {
+      background: linear-gradient(135deg, #2a1015, #1a0a0f);
+      border: 1px solid #ef444433;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  /* Disabled model cards */
-  .model-card {
-    background: #12121f; border: 2px solid #1a1a2e;
-    border-radius: 16px; padding: 16px; margin-bottom: 10px;
-    position: relative; opacity: 0.55;
-  }
-  .model-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-  .model-name { font-size: 16px; font-weight: 700; }
-  .model-provider { font-size: 11px; color: #666; margin-top: 1px; }
-  .model-badge {
-    font-size: 11px; font-weight: 600; padding: 4px 10px;
-    border-radius: 20px; white-space: nowrap;
-  }
-  .badge-value { background: #064e3b; color: #34d399; }
-  .badge-quality { background: #422006; color: #fbbf24; }
-  .badge-premium { background: #2e1065; color: #c084fc; }
+    .warning-icon {
+      font-size: 20px;
+    }
 
-  .model-features {
-    display: flex; gap: 12px; margin-bottom: 10px;
-    font-size: 12px; color: #999;
-  }
-  .model-features span { display: flex; align-items: center; gap: 4px; }
+    .warning-text {
+      font-size: 13px;
+      color: #f87171;
+    }
 
-  .model-bottom { display: flex; justify-content: space-between; align-items: center; }
-  .model-price { font-size: 20px; font-weight: 700; }
-  .model-price small { font-size: 12px; font-weight: 400; color: #888; }
+    .warning-text strong {
+      color: #ef4444;
+    }
 
-  .insufficient-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: #2a1015; color: #ef4444;
-    font-size: 11px; font-weight: 600;
-    padding: 3px 8px; border-radius: 6px;
-  }
-  .get-credits-link {
-    font-size: 12px; color: #a855f7; font-weight: 600;
-    text-decoration: none; margin-top: 8px; display: inline-block;
-  }
+    .char-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
 
-  /* Bottom CTA */
-  .bottom-cta {
-    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 390px; padding: 16px;
-    background: linear-gradient(to top, #0a0a0f 80%, transparent);
-  }
-  .get-credits-btn {
-    width: 100%; padding: 16px; border: none; border-radius: 14px;
-    background: linear-gradient(135deg, #f0c040, #f59e0b);
-    color: #000; font-size: 16px; font-weight: 700; cursor: pointer;
-  }
-  .disabled-text {
-    text-align: center; font-size: 12px; color: #555; margin-top: 8px;
-  }
-</style>
+    .char-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #6c5ce7, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .char-info .char-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .char-info .char-sub {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .prompt-section {
+      margin-bottom: 20px;
+    }
+
+    .prompt-label {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .prompt-input {
+      width: 100%;
+      background: #12121f;
+      border: 1px solid #2a2a3e;
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      resize: none;
+      height: 60px;
+      outline: none;
+    }
+
+    .prompt-input::placeholder {
+      color: #555;
+    }
+
+    .duration-section {
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .duration-toggle {
+      display: flex;
+      background: #12121f;
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .dur-option {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .dur-option.active {
+      background: #7c3aed;
+      color: #fff;
+    }
+
+    .dur-option:not(.active) {
+      color: #666;
+    }
+
+    .duration-note {
+      font-size: 11px;
+      color: #555;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .models-section {
+      margin-bottom: 20px;
+    }
+
+    .models-header {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    /* Disabled model cards */
+    .model-card {
+      background: #12121f;
+      border: 2px solid #1a1a2e;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 10px;
+      position: relative;
+      opacity: 0.55;
+    }
+
+    .model-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .model-name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .model-provider {
+      font-size: 11px;
+      color: #666;
+      margin-top: 1px;
+    }
+
+    .model-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-value {
+      background: #064e3b;
+      color: #34d399;
+    }
+
+    .badge-quality {
+      background: #422006;
+      color: #fbbf24;
+    }
+
+    .badge-premium {
+      background: #2e1065;
+      color: #c084fc;
+    }
+
+    .model-features {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .model-features span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .model-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .model-price {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .model-price small {
+      font-size: 12px;
+      font-weight: 400;
+      color: #888;
+    }
+
+    .insufficient-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #2a1015;
+      color: #ef4444;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .get-credits-link {
+      font-size: 12px;
+      color: #a855f7;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 390px;
+      padding: 16px;
+      background: linear-gradient(to top, #0a0a0f 80%, transparent);
+    }
+
+    .get-credits-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f0c040, #f59e0b);
+      color: #000;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .disabled-text {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+      margin-top: 8px;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="top-bar">
-  <a href="#" class="back">&larr;</a>
-  <span class="title">Create Video Post</span>
-  <div class="credits">&#x1FA99; 85</div>
-</div>
-
-<div class="content">
-  <div class="low-credits-banner">
-    <span class="warning-icon">&#9888;&#65039;</span>
-    <div class="warning-text">You need at least <strong>200 credits</strong> to generate a video. Top up to continue.</div>
+  <div class="top-bar">
+    <a href="01-model-selection.html" class="back">&larr;</a>
+    <span class="title">Create Video Post</span>
+    <div class="credits">&#x1FA99; 85</div>
   </div>
 
-  <div class="char-preview">
-    <div class="char-avatar">&#x1F469;</div>
-    <div class="char-info">
-      <div class="char-name">Luna</div>
-      <div class="char-sub">Your character</div>
+  <div class="content">
+    <div class="low-credits-banner">
+      <span class="warning-icon">&#9888;&#65039;</span>
+      <div class="warning-text">You need at least <strong>200 credits</strong> to generate a video. Top up to continue.
+      </div>
     </div>
-  </div>
 
-  <div class="prompt-section">
-    <div class="prompt-label">Describe your video scene (optional)</div>
-    <textarea class="prompt-input" placeholder="e.g. Luna walking through a neon-lit cyberpunk city at night..."></textarea>
-  </div>
-
-  <div class="duration-section">
-    <div class="section-label">Duration</div>
-    <div class="duration-toggle">
-      <div class="dur-option active">5 seconds</div>
-      <div class="dur-option">10 seconds</div>
+    <div class="char-preview">
+      <div class="char-avatar">&#x1F469;</div>
+      <div class="char-info">
+        <div class="char-name">Luna</div>
+        <div class="char-sub">Your character</div>
+      </div>
     </div>
-    <div class="duration-note">10s costs 2x credits</div>
-  </div>
 
-  <div class="models-section">
-    <div class="models-header">Choose AI Model</div>
+    <div class="prompt-section">
+      <div class="prompt-label">Describe your video scene (optional)</div>
+      <textarea class="prompt-input"
+        placeholder="e.g. Luna walking through a neon-lit cyberpunk city at night..."></textarea>
+    </div>
 
-    <div class="model-card">
-      <div class="model-top">
-        <div>
-          <div class="model-name">Kling 2.6</div>
-          <div class="model-provider">Kuaishou</div>
+    <div class="duration-section">
+      <div class="section-label">Duration</div>
+      <div class="duration-toggle">
+        <div class="dur-option active">5 seconds</div>
+        <div class="dur-option">10 seconds</div>
+      </div>
+      <div class="duration-note">10s costs 2x credits</div>
+    </div>
+
+    <div class="models-section">
+      <div class="models-header">Choose AI Model</div>
+
+      <div class="model-card">
+        <div class="model-top">
+          <div>
+            <div class="model-name">Kling 2.6</div>
+            <div class="model-provider">Kuaishou</div>
+          </div>
+          <div class="model-badge badge-value">&#9889; Best Value</div>
         </div>
-        <div class="model-badge badge-value">&#9889; Best Value</div>
-      </div>
-      <div class="model-features">
-        <span>&#x1F50A; Audio included</span>
-        <span>&#x1F3AC; 1080p</span>
-        <span>&#x23F1; ~2 min</span>
-      </div>
-      <div class="model-bottom">
-        <div class="model-price">200 <small>credits</small></div>
-        <span class="insufficient-badge">&#10007; Insufficient</span>
-      </div>
-      <a href="#" class="get-credits-link">Get Credits &rarr;</a>
-    </div>
-
-    <div class="model-card">
-      <div class="model-top">
-        <div>
-          <div class="model-name">Veo 3.1</div>
-          <div class="model-provider">Google</div>
+        <div class="model-features">
+          <span>&#x1F50A; Audio included</span>
+          <span>&#x1F3AC; 1080p</span>
+          <span>&#x23F1; ~2 min</span>
         </div>
-        <div class="model-badge badge-quality">&#10024; Highest Quality</div>
-      </div>
-      <div class="model-features">
-        <span>&#x1F50A; Audio included</span>
-        <span>&#x1F3AC; 1080p</span>
-        <span>&#x23F1; ~3 min</span>
-      </div>
-      <div class="model-bottom">
-        <div class="model-price">250 <small>credits</small></div>
-        <span class="insufficient-badge">&#10007; Insufficient</span>
-      </div>
-      <a href="#" class="get-credits-link">Get Credits &rarr;</a>
-    </div>
-
-    <div class="model-card">
-      <div class="model-top">
-        <div>
-          <div class="model-name">Sora 2.0</div>
-          <div class="model-provider">OpenAI</div>
+        <div class="model-bottom">
+          <div class="model-price">200 <small>credits</small></div>
+          <span class="insufficient-badge">&#10007; Insufficient</span>
         </div>
-        <div class="model-badge badge-premium">&#x1F451; Premium</div>
+        <a href="#" class="get-credits-link">Get Credits &rarr;</a>
       </div>
-      <div class="model-features">
-        <span>&#x1F50A; Audio included</span>
-        <span>&#x23F1; ~4 min</span>
+
+      <div class="model-card">
+        <div class="model-top">
+          <div>
+            <div class="model-name">Veo 3.1</div>
+            <div class="model-provider">Google</div>
+          </div>
+          <div class="model-badge badge-quality">&#10024; Highest Quality</div>
+        </div>
+        <div class="model-features">
+          <span>&#x1F50A; Audio included</span>
+          <span>&#x1F3AC; 1080p</span>
+          <span>&#x23F1; ~3 min</span>
+        </div>
+        <div class="model-bottom">
+          <div class="model-price">250 <small>credits</small></div>
+          <span class="insufficient-badge">&#10007; Insufficient</span>
+        </div>
+        <a href="#" class="get-credits-link">Get Credits &rarr;</a>
       </div>
-      <div class="model-bottom">
-        <div class="model-price">450 <small>credits</small></div>
-        <span class="insufficient-badge">&#10007; Insufficient</span>
+
+      <div class="model-card">
+        <div class="model-top">
+          <div>
+            <div class="model-name">Sora 2.0</div>
+            <div class="model-provider">OpenAI</div>
+          </div>
+          <div class="model-badge badge-premium">&#x1F451; Premium</div>
+        </div>
+        <div class="model-features">
+          <span>&#x1F50A; Audio included</span>
+          <span>&#x23F1; ~4 min</span>
+        </div>
+        <div class="model-bottom">
+          <div class="model-price">450 <small>credits</small></div>
+          <span class="insufficient-badge">&#10007; Insufficient</span>
+        </div>
+        <a href="#" class="get-credits-link">Get Credits &rarr;</a>
       </div>
-      <a href="#" class="get-credits-link">Get Credits &rarr;</a>
     </div>
   </div>
-</div>
 
-<div class="bottom-cta">
-  <button class="get-credits-btn">&#x1FA99; Get Credits</button>
-  <div class="disabled-text">You need more credits to generate a video</div>
-</div>
+  <div class="bottom-cta">
+    <button class="get-credits-btn">&#x1FA99; Get Credits</button>
+    <div class="disabled-text">You need more credits to generate a video</div>
+  </div>
 
 </body>
+
 </html>

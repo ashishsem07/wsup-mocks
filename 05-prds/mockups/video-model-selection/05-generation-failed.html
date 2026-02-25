@@ -1,108 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Screen 5: Generation Failed</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0a0f; color: #fff; max-width: 390px; margin: 0 auto;
-    min-height: 100vh; display: flex; flex-direction: column;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screen 5: Generation Failed</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  .top-bar {
-    display: flex; align-items: center; justify-content: center;
-    padding: 14px 16px; border-bottom: 1px solid #1a1a2e;
-  }
-  .top-bar .title { font-size: 17px; font-weight: 600; color: #ef4444; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      max-width: 390px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .error-area {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 40px 20px;
-  }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid #1a1a2e;
+    }
 
-  .error-icon {
-    width: 100px; height: 100px; border-radius: 50%;
-    background: linear-gradient(135deg, #2a1015, #1a0a0f);
-    border: 2px solid #ef444444;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 48px; margin-bottom: 20px;
-  }
+    .top-bar .title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #ef4444;
+    }
 
-  .error-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-  .error-sub {
-    font-size: 14px; color: #888; text-align: center;
-    line-height: 1.5; margin-bottom: 28px; max-width: 280px;
-  }
-  .refund-highlight { color: #34d399; font-weight: 600; }
+    .error-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
 
-  .details-card {
-    background: #12121f; border: 1px solid #1a1a2e;
-    border-radius: 14px; padding: 16px; width: 100%;
-    margin-bottom: 32px;
-  }
-  .detail-row {
-    display: flex; justify-content: space-between;
-    padding: 6px 0; border-bottom: 1px solid #1a1a2e;
-    font-size: 13px;
-  }
-  .detail-row:last-child { border-bottom: none; }
-  .detail-row .key { color: #888; }
-  .detail-row .val { font-weight: 600; }
-  .detail-row .val.refunded { color: #34d399; }
-  .detail-row .val.error { color: #ef4444; }
+    .error-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2a1015, #1a0a0f);
+      border: 2px solid #ef444444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
 
-  .btn-retry {
-    width: 100%; padding: 16px; border: none; border-radius: 14px;
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    color: #fff; font-size: 16px; font-weight: 700;
-    cursor: pointer; margin-bottom: 10px;
-  }
-  .btn-different {
-    width: 100%; padding: 14px; border: 2px solid #2a2a3e;
-    border-radius: 14px; background: transparent;
-    color: #ccc; font-size: 14px; font-weight: 600;
-    cursor: pointer; margin-bottom: 10px;
-  }
-  .btn-back {
-    width: 100%; padding: 10px; border: none; background: transparent;
-    color: #555; font-size: 13px; cursor: pointer; text-align: center;
-  }
+    .error-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
 
-  .help-note {
-    font-size: 11px; color: #444; text-align: center;
-    margin-top: 16px; line-height: 1.4; max-width: 280px;
-  }
-</style>
+    .error-sub {
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 28px;
+      max-width: 280px;
+    }
+
+    .refund-highlight {
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    .details-card {
+      background: #12121f;
+      border: 1px solid #1a1a2e;
+      border-radius: 14px;
+      padding: 16px;
+      width: 100%;
+      margin-bottom: 32px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #1a1a2e;
+      font-size: 13px;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-row .key {
+      color: #888;
+    }
+
+    .detail-row .val {
+      font-weight: 600;
+    }
+
+    .detail-row .val.refunded {
+      color: #34d399;
+    }
+
+    .detail-row .val.error {
+      color: #ef4444;
+    }
+
+    .btn-retry {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn-different {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #2a2a3e;
+      border-radius: 14px;
+      background: transparent;
+      color: #ccc;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn-back {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: #555;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .help-note {
+      font-size: 11px;
+      color: #444;
+      text-align: center;
+      margin-top: 16px;
+      line-height: 1.4;
+      max-width: 280px;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="top-bar">
-  <span class="title">Generation Failed</span>
-</div>
-
-<div class="error-area">
-  <div class="error-icon">&#9888;&#65039;</div>
-  <div class="error-title">Video generation failed</div>
-  <div class="error-sub">
-    Don't worry &mdash; your <span class="refund-highlight">200 credits have been refunded</span> to your balance.
+  <div class="top-bar">
+    <span class="title">Generation Failed</span>
   </div>
 
-  <div class="details-card">
-    <div class="detail-row"><span class="key">Model</span><span class="val">Kling 2.6</span></div>
-    <div class="detail-row"><span class="key">Error</span><span class="val error">Model timeout</span></div>
-    <div class="detail-row"><span class="key">Credits refunded</span><span class="val refunded">&#10003; 200</span></div>
+  <div class="error-area">
+    <div class="error-icon">&#9888;&#65039;</div>
+    <div class="error-title">Video generation failed</div>
+    <div class="error-sub">
+      Don't worry &mdash; your <span class="refund-highlight">200 credits have been refunded</span> to your balance.
+    </div>
+
+    <div class="details-card">
+      <div class="detail-row"><span class="key">Model</span><span class="val">Kling 2.6</span></div>
+      <div class="detail-row"><span class="key">Error</span><span class="val error">Model timeout</span></div>
+      <div class="detail-row"><span class="key">Credits refunded</span><span class="val refunded">&#10003; 200</span>
+      </div>
+    </div>
+
+    <button class="btn-retry" onclick="window.location.href='02-generating-loading.html'">Try Again</button>
+    <button class="btn-different" onclick="window.location.href='01-model-selection.html'">Try Different Model</button>
+    <button class="btn-back" onclick="window.location.href='01-model-selection.html'">Back to Create Post</button>
+
+    <div class="help-note">If this keeps happening, the model may be temporarily unavailable. Try a different model.
+    </div>
   </div>
-
-  <button class="btn-retry">Try Again</button>
-  <button class="btn-different">Try Different Model</button>
-  <button class="btn-back">Back to Create Post</button>
-
-  <div class="help-note">If this keeps happening, the model may be temporarily unavailable. Try a different model.</div>
-</div>
 
 </body>
+
 </html>
