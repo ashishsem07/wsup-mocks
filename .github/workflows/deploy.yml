@@ -63,10 +63,10 @@ jobs:
           npm -v
       - name: Install dependencies
         run: npm install --legacy-peer-deps
+      - name: Copy PRDs and mockups to public dir
+        run: cp -r 05-prds ./public/05-prds || true
       - name: Build with Next.js
         run: npm run build
-      - name: Copy PRDs and mockups to public output
-        run: cp -r 05-prds ./out/05-prds || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
